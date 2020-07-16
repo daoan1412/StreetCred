@@ -3,8 +3,10 @@ import 'package:flutter_app/core/enums/viewstate.dart';
 import 'package:flutter_app/core/models/ClientProfile.dart';
 import 'package:flutter_app/core/models/ClientProperty.dart';
 import 'package:flutter_app/core/viewmodels/profile_model.dart';
+import 'package:flutter_app/ui/screens/invites.dart';
 import 'package:flutter_app/ui/screens/relationships.dart';
 import 'package:flutter_app/ui/views/base_view.dart';
+import 'package:flutter_app/ui/widgets/common/notification.dart';
 
 class AliceScreen extends StatelessWidget {
   final items = [
@@ -26,7 +28,30 @@ class AliceScreen extends StatelessWidget {
     }
   }
 
-  Widget _render(ProfileModel model) {
+  Widget _render(ProfileModel model, BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Alice"),
+        actions: <Widget>[
+          NotificationBell(
+              number: model.invites.length,
+              callback: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => InvitesScreen()),
+                  );
+                  model.clearInvites();
+              })
+        ],
+      ),
+      body: Center(
+        child: _getBody(model),
+      ),
+    );
+  }
+
+  Widget _getBody(ProfileModel model) {
     if (model.state == ViewState.Idle) {
       return ListView.builder(
         itemCount: items.length,
@@ -60,17 +85,9 @@ class AliceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Alice"),
-      ),
-      body: Center(
-        child: BaseView<ProfileModel>(
-          onModelReady: (model) => model.fetchProfile(),
-          builder: (BuildContext context, ProfileModel model, Widget child) =>
-              _render(model),
-        ),
-      ),
-    );
+    return BaseView<ProfileModel>(
+        onModelReady: (model) => model.fetchProfile(),
+        builder: (BuildContext context, ProfileModel model, Widget child) =>
+            _render(model, context));
   }
 }

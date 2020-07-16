@@ -1,7 +1,9 @@
 
 
 import 'package:flutter_app/core/services/api.dart';
+import 'package:flutter_app/core/viewmodels/invites_model.dart';
 import 'package:flutter_app/core/viewmodels/profile_model.dart';
+import 'package:flutter_app/core/viewmodels/relationship_model.dart';
 import 'package:flutter_app/core/viewmodels/relationships_model.dart';
 import 'package:get_it/get_it.dart';
 
@@ -12,4 +14,6 @@ void setupLocator() {
 
   locator.registerFactory(() => ProfileModel());
   locator.registerFactory(() => RelationshipsModel());
+  locator.registerFactory(() => RelationshipModel());
+  locator.registerFactory(() => InvitesModel());
 }

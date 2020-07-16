@@ -5,9 +5,7 @@ import 'package:flutter_app/core/viewmodels/relationships_model.dart';
 import 'package:flutter_app/ui/screens/relationship.dart';
 import 'package:flutter_app/ui/views/base_view.dart';
 
-
 class RelationshipsScreen extends StatelessWidget {
-
   Widget _render(RelationshipsModel model) {
     if (model.state == ViewState.Idle) {
       return ListView.builder(
@@ -31,7 +29,9 @@ class RelationshipsScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => RelationshipScreen(connectionId: item.id,)),
+                      builder: (context) => RelationshipScreen(
+                            connectionId: item.id,
+                          )),
                 )
               },
             );
