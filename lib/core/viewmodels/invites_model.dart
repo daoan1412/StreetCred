@@ -12,7 +12,6 @@ class InvitesModel extends BaseModel {
   List<RelationshipItem> get invites => _invites;
   String errorMsg = "";
 
-
   void fetchInvites() async {
     setState(ViewState.Busy);
     try {
@@ -25,13 +24,21 @@ class InvitesModel extends BaseModel {
     }
   }
 
+  void removeConnection(String connectionId) {
+    _invites.removeWhere((element) => element.id == connectionId);
+  }
+
+  void refresh() {
+    notifyListeners();
+  }
+
   Future<void> acceptInvite(int index) async {
     setState(ViewState.Busy);
     try {
       await _api.acceptInvite(_invites[index].id);
       _invites.removeAt(index);
       setState(ViewState.Idle);
-    } catch(e) {
+    } catch (e) {
       errorMsg = e;
       setState(ViewState.Fail);
     }
@@ -43,7 +50,7 @@ class InvitesModel extends BaseModel {
       await _api.declineInvite(_invites[index].id);
       _invites.removeAt(index);
       setState(ViewState.Idle);
-    } catch(e) {
+    } catch (e) {
       errorMsg = e;
       setState(ViewState.Fail);
     }

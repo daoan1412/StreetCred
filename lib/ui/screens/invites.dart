@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/enums/viewstate.dart';
 import 'package:flutter_app/core/viewmodels/invites_model.dart';
+import 'package:flutter_app/ui/screens/invite.dart';
 import 'package:flutter_app/ui/views/base_view.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -19,7 +20,7 @@ class InvitesScreen extends StatelessWidget {
 
   Widget _getBody(InvitesModel model) {
     if (model.state == ViewState.Idle) {
-      if(model.invites.length == 0) {
+      if (model.invites.length == 0) {
         return Center(
           child: Text("No Invitations"),
         );
@@ -44,8 +45,17 @@ class InvitesScreen extends StatelessWidget {
               ),
               title: Text(invite.name),
               subtitle: Text("State: ${invite.state}"),
-              onTap:  () => {
-
+              onTap: () async {
+               String connectionId = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => InviteScreen(
+                              connectionId: invite.id,
+                            )));
+               if(connectionId != null) {
+                 model.removeConnection(connectionId);
+                 model.refresh();
+               }
               },
             ),
             secondaryActions: <Widget>[

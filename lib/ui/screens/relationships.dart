@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/core/enums/viewstate.dart';
 import 'package:flutter_app/core/models/RelationshipItem.dart';
 import 'package:flutter_app/core/viewmodels/relationships_model.dart';
+import 'package:flutter_app/ui/screens/invite_qr.dart';
 import 'package:flutter_app/ui/screens/relationship.dart';
 import 'package:flutter_app/ui/views/base_view.dart';
 
@@ -47,6 +48,15 @@ class RelationshipsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Relationships"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InviteQrScreen()));
+            },
+          )
+        ],
       ),
       body: Center(
         child: BaseView<RelationshipsModel>(

@@ -21,4 +21,26 @@ class RelationshipModel extends BaseModel {
       setState(ViewState.Fail);
     }
   }
+
+  Future<void> acceptInvite() async {
+    setState(ViewState.Busy);
+    try {
+      await _api.acceptInvite(_property.connectionId);
+      setState(ViewState.Idle);
+    } catch(e) {
+      errorMsg = e;
+      setState(ViewState.Fail);
+    }
+  }
+
+  Future<void> declineInvite() async {
+    setState(ViewState.Busy);
+    try {
+      await _api.declineInvite(_property.connectionId);
+      setState(ViewState.Idle);
+    } catch(e) {
+      errorMsg = e;
+      setState(ViewState.Fail);
+    }
+  }
 }
